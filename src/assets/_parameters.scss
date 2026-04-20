@@ -1,0 +1,22 @@
+:root {
+  --m-unit:   10px;
+
+  @media (min-width: 1280px) {
+    --m-unit:   .8vw;
+  }
+
+  --m-gutter: 2rem;
+  --m-gutter-xl: 6rem;
+
+  --m-color-light: white;
+  --m-color-dark: rgb(5, 5, 5);
+  --m-color-secondary: #F71818;
+  --m-color-ternary: #00a380;
+
+  // Mobile/Tablet variables
+  --m-mobile-breakpoint: 980px;
+  --m-tablet-breakpoint: 1280px;
+}
+
+$mobile-breakpoint: 980px;
+$tablet-breakpoint: 1280px;

@@ -1,0 +1,38 @@
+@mixin font-h1 {
+  line-height: 4rem;
+  font-size: 3.8rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+  font-family: classico-urw, sans-serif;
+  font-weight: 400;
+}
+
+h1, .font-h1 {
+  @include font-h1;
+}
+
+@mixin font-default {
+  font-size: 2.2rem;
+  line-height: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 400;
+  font-family: classico-urw, sans-serif;
+}
+
+p, .font-default {
+  @include font-default;
+}
+
+@mixin font-small {
+  font-size: 1.5rem;
+  line-height: 1.6rem;
+}
+
+.font-small {
+  @include font-small;
+}
+
+.font-strong {
+  font-weight: 900;
+}
