@@ -234,18 +234,10 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, nextTick } from "vue"
 import { useGlobalState } from "@/stores/globalState"
-import { getMiel, getFruit, getNatura, getProduit, getPresentation, getListePrix } from "@/services/api";
+import { storeToRefs } from "pinia"
 
 const globalState = useGlobalState()
-
-// Reactive data for API content
-const presentation = ref<any>(null)
-const fruit = ref<any>(null)
-const produit = ref<any>(null)
-const natura = ref<any>(null)
-const miel = ref<any>(null)
-const liste_prix = ref<any>(null)
-const apiUrl = import.meta.env.VITE_BASE_API_URL
+const { presentation, fruit, produit, natura, miel, liste_prix } = storeToRefs(globalState)
 
 // Template refs
 const textContainerEl = ref<HTMLElement | null>(null)
@@ -306,43 +298,14 @@ const onScroll = (e: Event) => {
 
 onMounted(async () => {
   // Initial setup
-  await nextTick()
   setupSectionObserver()
 
-  try {
-    const results = await Promise.allSettled([
-      getProduit(),
-      getNatura(),
-      getMiel(),
-      getPresentation(),
-      getFruit(),
-      getListePrix()
-    ])
+  // Ensure data is loaded
+  await globalState.initData()
 
-    // Safely extract data from fulfilled results
-    const getData = (result: PromiseSettledResult<any>) =>
-        (result.status === 'fulfilled' && result.value.data) ? result.value.data.data : null
-
-    if (results[0].status === 'fulfilled') produit.value = getData(results[0])
-    if (results[1].status === 'fulfilled') natura.value = getData(results[1])
-    if (results[2].status === 'fulfilled') miel.value = getData(results[2])
-    if (results[3].status === 'fulfilled') presentation.value = getData(results[3])
-    if (results[4].status === 'fulfilled') fruit.value = getData(results[4])
-
-    const resListePrix = results[5].status === 'fulfilled' ? results[5].value.data : null
-    if (resListePrix && resListePrix.length > 0) {
-      liste_prix.value = resListePrix[0].url
-    }
-
-    // Re-adjust UI after data has been loaded
-    await nextTick()
-    setupSectionObserver()
-
-  } catch (error) {
-    console.error("Failed to fetch content:", error)
-  } finally {
-    globalState.isLoading = false
-  }
+  // Re-adjust UI after data has been loaded
+  await nextTick()
+  setupSectionObserver()
 })
 
 onUnmounted(() => {

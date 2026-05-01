@@ -14,6 +14,10 @@ app.use(router)
 
 app.mount('#app')
 
+// Start fetching data as soon as the app is mounted to optimize performance
+const globalState = useGlobalState()
+globalState.initData()
+
 export const mobilMinWidth = 980;
 
 // function setIsOpen() {if (window.innerWidth < mobilMinWidth) useGlobalState().isOpen = false}
