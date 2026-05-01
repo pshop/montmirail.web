@@ -41,8 +41,7 @@
                     biodiversité de la région, nous avons aussi des vergers, des ruches et un élevage bovin Natura-Beef.
                     Pour ces produits, nous privilégions la vente directe et les circuits courts, vous pourrez donc
                     trouver chez nous des <em>fruits de saison</em>, du <em>miel</em> ainsi que de la <em>viande</em>.
-                    Cette année, nous proposons en plus différentes
-                    variétés de <em>courges</em> ainsi que des <em>noix</em>.
+                    Cette année, nous proposons également des <em>noix</em>.
                   </p>
                   <p>
                     Pour plus d’informations ou pour passer commande directement, vous pouvez nous joindre au 079 692 15
@@ -117,7 +116,7 @@
                   </p>
                 </template>
                 <template v-else>
-                  En plus des fruits frais, nous proposons du jus de pomme et des fruits séchés qui permettent de déguster tout au long de l’année notre production estivale et automnale. Afin d’utiliser les fruits mûrs invendus, nous nous sommes aussi mis à produire de l’eau-de-vie en petite quantité, disponible actuellement en deux sortes différentes : Pomme Rubinette et Poire.
+                  <p>En plus des fruits frais, nous proposons également du <em>jus de pomme</em> qui permet de déguster tout au long de l’année notre production estivale et automnale. Afin d’utiliser les fruits mûrs invendus, nous nous sommes aussi mis à produire de l’<em>eau-de-vie</em> en petite quantité, disponible actuellement en deux sortes différentes : Pomme Rubinette et Poire.</p>
                 </template>
               </div>
             </section>
