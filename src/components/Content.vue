@@ -252,51 +252,6 @@ const textContainerEl = ref<HTMLElement | null>(null)
 const imgGalleryEl = ref<HTMLElement | null>(null)
 
 /**
- * Automatically adjusts font-size if the text content overflows its viewport.
- * This ensures all text is visible on different screen sizes and aspect ratios.
- */
-let adjustIterations = 0
-
-const resetAdjustIterations = () => {adjustIterations = 0}
-
-const autoAdjustFontSize = () => {
-  const MIN_FONT_SIZE = 12
-  const MAX_ITER = 200
-
-  if (!textContainerEl.value || adjustIterations++ > MAX_ITER) return
-
-  const textViewHeight = textContainerEl.value.getBoundingClientRect().height
-  const sections = textContainerEl.value.querySelectorAll('.v-content__content__text-container__section')
-
-  let needsAdjustment = false
-  for (const section of sections) {
-    if (section.scrollHeight > textViewHeight) {
-      needsAdjustment = true
-      break
-    }
-  }
-
-  if (needsAdjustment) {
-    const contentElements = textContainerEl.value.querySelectorAll('.v-content__content__text-container__section__content *')
-    let canStillShrink = false
-    contentElements.forEach((el: any) => {
-      if (el instanceof HTMLElement) {
-        const currentSize = parseFloat(window.getComputedStyle(el).fontSize)
-        if (currentSize > MIN_FONT_SIZE) {
-          el.style.lineHeight = '1.3em'
-          el.style.fontSize = (currentSize - 0.2) + 'px'
-          canStillShrink = true
-        }
-      }
-    })
-
-    if (canStillShrink) {
-      requestAnimationFrame(autoAdjustFontSize)
-    }
-  }
-}
-
-/**
  * Updates the gallery scroll position based on the text scroll progress.
  * The gallery moves at a different speed to cover its entire height.
  */
@@ -323,6 +278,8 @@ const updateGalleryPosition = (target: HTMLElement) => {
 let sectionObserver: IntersectionObserver | null = null
 
 const setupSectionObserver = () => {
+  if (sectionObserver) sectionObserver.disconnect()
+
   const options = {
     root: textContainerEl.value,
     rootMargin: '-20% 0px -20% 0px', // Trigger when section is roughly in the middle 60% of view
@@ -347,17 +304,10 @@ const onScroll = (e: Event) => {
   }
 }
 
-const onResize = () => {
-  resetAdjustIterations()
-  autoAdjustFontSize()
-}
-
 onMounted(async () => {
-  // Initial adjustment with fallback content to show UI immediately
+  // Initial setup
   await nextTick()
-  autoAdjustFontSize()
   setupSectionObserver()
-  window.addEventListener('resize', onResize)
 
   try {
     const results = await Promise.allSettled([
@@ -386,8 +336,6 @@ onMounted(async () => {
 
     // Re-adjust UI after data has been loaded
     await nextTick()
-    resetAdjustIterations()
-    autoAdjustFontSize()
     setupSectionObserver()
 
   } catch (error) {
@@ -399,7 +347,6 @@ onMounted(async () => {
 
 onUnmounted(() => {
   sectionObserver?.disconnect()
-  window.removeEventListener('resize', onResize)
 })
 
 </script>
