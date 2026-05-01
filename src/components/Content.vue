@@ -353,16 +353,14 @@ const onResize = () => {
 }
 
 onMounted(async () => {
-  globalState.isLoading = true
+  // Initial adjustment with fallback content to show UI immediately
+  await nextTick()
+  autoAdjustFontSize()
+  setupSectionObserver()
+  window.addEventListener('resize', onResize)
+
   try {
-    const [
-      { data: resProduit },
-      { data: resNatura },
-      { data: resMiel },
-      { data: resPresentation },
-      { data: resFruit },
-      { data: resListePrix }
-    ] = await Promise.all([
+    const results = await Promise.allSettled([
       getProduit(),
       getNatura(),
       getMiel(),
@@ -370,22 +368,32 @@ onMounted(async () => {
       getFruit(),
       getListePrix()
     ])
-    produit.value = resProduit.data
-    natura.value = resNatura.data
-    miel.value = resMiel.data
-    presentation.value = resPresentation.data
-    fruit.value = resFruit.data
-    liste_prix.value = resListePrix[0].url
 
-    window.addEventListener('resize', onResize)
+    // Safely extract data from fulfilled results
+    const getData = (result: PromiseSettledResult<any>) =>
+        (result.status === 'fulfilled' && result.value.data) ? result.value.data.data : null
+
+    if (results[0].status === 'fulfilled') produit.value = getData(results[0])
+    if (results[1].status === 'fulfilled') natura.value = getData(results[1])
+    if (results[2].status === 'fulfilled') miel.value = getData(results[2])
+    if (results[3].status === 'fulfilled') presentation.value = getData(results[3])
+    if (results[4].status === 'fulfilled') fruit.value = getData(results[4])
+
+    const resListePrix = results[5].status === 'fulfilled' ? results[5].value.data : null
+    if (resListePrix && resListePrix.length > 0) {
+      liste_prix.value = resListePrix[0].url
+    }
+
+    // Re-adjust UI after data has been loaded
+    await nextTick()
+    resetAdjustIterations()
+    autoAdjustFontSize()
+    setupSectionObserver()
 
   } catch (error) {
     console.error("Failed to fetch content:", error)
   } finally {
     globalState.isLoading = false
-    await nextTick()
-    autoAdjustFontSize()
-    setupSectionObserver()
   }
 })
 
@@ -401,7 +409,8 @@ onUnmounted(() => {
 
 .v-content {
   &.is-loading {
-    opacity: 0;
+    // Semi-transparent instead of hidden to avoid "broken" look if API is slow
+    opacity: 0.7;
   }
   transition: opacity .75s ease-in-out;
   background-image: url("/web_frame.jpeg");

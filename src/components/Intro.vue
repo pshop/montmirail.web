@@ -41,7 +41,6 @@ const introCard = ref<HTMLElement | null>(null)
  * Handles the transition from intro screen to main content.
  */
 const openMainContent = async () => {
-  globalState.isLoading = true
   globalState.isOpen = true
   // Reset scroll and navigation state
   globalState.galleryScrollPosition = 0

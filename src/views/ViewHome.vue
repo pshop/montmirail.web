@@ -10,9 +10,9 @@
       >PRODUITS DE LA FERME DE MONTMIRAIL</div>
     </transition>
 
-    <!-- Navigation: Visible when content is open and NOT loading -->
+    <!-- Navigation: Visible when content is open -->
     <transition name="transition-intro">
-      <NavTop v-if="globalState.isOpen && !globalState.isLoading"></NavTop>
+      <NavTop v-if="globalState.isOpen"></NavTop>
     </transition>
 
     <!-- Main Content: Visible when open and NOT loading -->
