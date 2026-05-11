@@ -9,7 +9,7 @@
               <section v-for="item in main_content.data"
                        v-bind:id="item.html_id"
                        class="v-content__content__text-container__section">
-                <div v-html="item.contenu"/>
+                <div v-html="item.contenu" class="v-content__content__text-container__section__content"/>
                 <div v-if="liste_prix  && item.html_id == 'natura'" style="margin-top: 1rem">
                   <a  href="https://directus.nonetype.space/assets/034db8d7-fa3a-4d32-8835-1bbc8199ddbe" class="m-link-with-img">
                     <span>La liste des prix est par ici </span>
@@ -17,28 +17,25 @@
                   </a>
                 </div>
               </section>
-
             </template>
+
             <template v-else>
               <section id="presentation" class="v-content__content__text-container__section">
               <div class="v-content__content__text-container__section__content">
-                <p>
-                  default text
-                </p>
-<!--                  <p>-->
-<!--                    Installés à Montmirail près de Neuchâtel depuis 2011, nous tenons une exploitation spécialisée dans-->
-<!--                    les grandes cultures (maïs, soja, tournesol, blé d’automne). Attentifs à la qualité des produits ainsi-->
-<!--                    qu’à l’environnement, notre production est labellisée Bourgeon de Bio Suisse. Pour entretenir la-->
-<!--                    biodiversité de la région, nous avons aussi des vergers, des ruches et un élevage bovin Natura-Beef.-->
-<!--                    Pour ces produits, nous privilégions la vente directe et les circuits courts, vous pourrez donc-->
-<!--                    trouver chez nous des <em>fruits de saison</em>, du <em>miel</em> ainsi que de la <em>viande</em>.-->
-<!--                    Cette année, nous proposons également des <em>noix</em>.-->
-<!--                  </p>-->
-<!--                  <p>-->
-<!--                    Pour plus d’informations ou pour passer commande directement, vous pouvez nous joindre au 079 692 15-->
-<!--                    18 ou nous écrire à <i>farm@doncamillo.ch</i>. Nous serons ravis de vous renseigner plus en-->
-<!--                    détail et de vous accueillir à la ferme.-->
-<!--                  </p>-->
+                  <p>
+                    Installés à Montmirail près de Neuchâtel depuis 2011, nous tenons une exploitation spécialisée dans
+                    les grandes cultures (maïs, soja, tournesol, blé d’automne). Attentifs à la qualité des produits ainsi
+                    qu’à l’environnement, notre production est labellisée Bourgeon de Bio Suisse. Pour entretenir la
+                    biodiversité de la région, nous avons aussi des vergers, des ruches et un élevage bovin Natura-Beef.
+                    Pour ces produits, nous privilégions la vente directe et les circuits courts, vous pourrez donc
+                    trouver chez nous des <em>fruits de saison</em>, du <em>miel</em> ainsi que de la <em>viande</em>.
+                    Cette année, nous proposons également des <em>noix</em>.
+                  </p>
+                  <p>
+                    Pour plus d’informations ou pour passer commande directement, vous pouvez nous joindre au 079 692 15
+                    18 ou nous écrire à <i>farm@doncamillo.ch</i>. Nous serons ravis de vous renseigner plus en
+                    détail et de vous accueillir à la ferme.
+                  </p>
               </div>
             </section>
 
