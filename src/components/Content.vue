@@ -4,78 +4,46 @@
       <div class="m-g-container">
         <!-- Main text content column (8/12 grid) -->
         <div class="m-g-8-12 m-remove-child-margin">
-          <div
-              class="v-content__content__text-container"
-              ref="textContainerEl"
-              @scroll="onScroll"
-          >
-            <!-- Sections are identified for navigation and auto-font-size adjustment -->
-            <section
-                id="presentation"
-                class="v-content__content__text-container__section"
-            >
-              <div class="v-content__content__text-container__section__content">
-                <template v-if="presentation">
-                  <p v-for="(block, index) in presentation.text_content" :key="index">
-                    <template v-for="(child, childIndex) in block.children" :key="childIndex">
-                      <a v-if="child.type === 'link'" :href="child.url" target="_blank">
-                        <template v-for="(linkChild, linkChildIndex) in child.children" :key="linkChildIndex">
-                          <em v-if="linkChild.bold">{{ linkChild.text }}</em>
-                          <i v-else-if="linkChild.underline">{{ linkChild.text }}</i>
-                          <template v-else>{{ linkChild.text }}</template>
-                        </template>
-                      </a>
-                      <template v-else>
-                        <em v-if="child.bold">{{ child.text }}</em>
-                        <i v-else-if="child.underline">{{ child.text }}</i>
-                        <template v-else>{{ child.text }}</template>
-                      </template>
-                    </template>
-                  </p>
-                </template>
-                <div v-else>
-                  <p>
-                    Installés à Montmirail près de Neuchâtel depuis 2011, nous tenons une exploitation spécialisée dans
-                    les grandes cultures (maïs, soja, tournesol, blé d’automne). Attentifs à la qualité des produits ainsi
-                    qu’à l’environnement, notre production est labellisée Bourgeon de Bio Suisse. Pour entretenir la
-                    biodiversité de la région, nous avons aussi des vergers, des ruches et un élevage bovin Natura-Beef.
-                    Pour ces produits, nous privilégions la vente directe et les circuits courts, vous pourrez donc
-                    trouver chez nous des <em>fruits de saison</em>, du <em>miel</em> ainsi que de la <em>viande</em>.
-                    Cette année, nous proposons également des <em>noix</em>.
-                  </p>
-                  <p>
-                    Pour plus d’informations ou pour passer commande directement, vous pouvez nous joindre au 079 692 15
-                    18 ou nous écrire à <i>farm@doncamillo.ch</i>. Nous serons ravis de vous renseigner plus en
-                    détail et de vous accueillir à la ferme.
-                  </p>
+          <div class="v-content__content__text-container" ref="textContainerEl" @scroll="onScroll">
+            <template v-if="main_content">
+              <section v-for="item in main_content.data"
+                       v-bind:id="item.html_id"
+                       class="v-content__content__text-container__section">
+                <div v-html="item.contenu"/>
+                <div v-if="liste_prix  && item.html_id == 'natura'" style="margin-top: 1rem">
+                  <a  href="https://directus.nonetype.space/assets/034db8d7-fa3a-4d32-8835-1bbc8199ddbe" class="m-link-with-img">
+                    <span>La liste des prix est par ici </span>
+                    <img src="../assets/fleche.svg" alt="fleche">
+                  </a>
                 </div>
+              </section>
+
+            </template>
+            <template v-else>
+              <section id="presentation" class="v-content__content__text-container__section">
+              <div class="v-content__content__text-container__section__content">
+                <p>
+                  default text
+                </p>
+<!--                  <p>-->
+<!--                    Installés à Montmirail près de Neuchâtel depuis 2011, nous tenons une exploitation spécialisée dans-->
+<!--                    les grandes cultures (maïs, soja, tournesol, blé d’automne). Attentifs à la qualité des produits ainsi-->
+<!--                    qu’à l’environnement, notre production est labellisée Bourgeon de Bio Suisse. Pour entretenir la-->
+<!--                    biodiversité de la région, nous avons aussi des vergers, des ruches et un élevage bovin Natura-Beef.-->
+<!--                    Pour ces produits, nous privilégions la vente directe et les circuits courts, vous pourrez donc-->
+<!--                    trouver chez nous des <em>fruits de saison</em>, du <em>miel</em> ainsi que de la <em>viande</em>.-->
+<!--                    Cette année, nous proposons également des <em>noix</em>.-->
+<!--                  </p>-->
+<!--                  <p>-->
+<!--                    Pour plus d’informations ou pour passer commande directement, vous pouvez nous joindre au 079 692 15-->
+<!--                    18 ou nous écrire à <i>farm@doncamillo.ch</i>. Nous serons ravis de vous renseigner plus en-->
+<!--                    détail et de vous accueillir à la ferme.-->
+<!--                  </p>-->
               </div>
             </section>
 
-            <section
-                id="fruit"
-                class="v-content__content__text-container__section"
-            >
+              <section id="fruit" class="v-content__content__text-container__section">
               <div class="v-content__content__text-container__section__content">
-                <template v-if="fruit">
-                  <p v-for="(block, index) in fruit.text_content" :key="index">
-                    <template v-for="(child, childIndex) in block.children" :key="childIndex">
-                      <a v-if="child.type === 'link'" :href="child.url" target="_blank">
-                        <template v-for="(linkChild, linkChildIndex) in child.children" :key="linkChildIndex">
-                          <em v-if="linkChild.bold">{{ linkChild.text }}</em>
-                          <i v-else-if="linkChild.underline">{{ linkChild.text }}</i>
-                          <template v-else>{{ linkChild.text }}</template>
-                        </template>
-                      </a>
-                      <template v-else>
-                        <em v-if="child.bold">{{ child.text }}</em>
-                        <i v-else-if="child.underline">{{ child.text }}</i>
-                        <template v-else>{{ child.text }}</template>
-                      </template>
-                    </template>
-                  </p>
-                </template>
-                <template v-else>
                   <p>
                     Nos vergers produisent une grande variété de fruits : les pommes Rubinette, Idared, Boskoop et Gala
                     ainsi que les poires Beurré Bosc et Conférence. Pour prendre le relais de l’ancien verger, nous en
@@ -88,63 +56,20 @@
                     diversité végétale de la ferme. Outre les pommiers et les poiriers, on y trouve des pruniers et des
                     mirabelliers, par exemple.
                   </p>
-                </template>
               </div>
             </section>
 
-            <section
-                id="produit"
-                class="v-content__content__text-container__section"
-            >
+              <section id="produit" class="v-content__content__text-container__section">
               <div class="v-content__content__text-container__section__content">
-                <template v-if="produit">
-                  <p v-for="(block, index) in produit.text_content" :key="index">
-                    <template v-for="(child, childIndex) in block.children" :key="childIndex">
-                      <a v-if="child.type === 'link'" :href="child.url" target="_blank">
-                        <template v-for="(linkChild, linkChildIndex) in child.children" :key="linkChildIndex">
-                          <em v-if="linkChild.bold">{{ linkChild.text }}</em>
-                          <i v-else-if="linkChild.underline">{{ linkChild.text }}</i>
-                          <template v-else>{{ linkChild.text }}</template>
-                        </template>
-                      </a>
-                      <template v-else>
-                        <em v-if="child.bold">{{ child.text }}</em>
-                        <i v-else-if="child.underline">{{ child.text }}</i>
-                        <template v-else>{{ child.text }}</template>
-                      </template>
-                    </template>
-                  </p>
-                </template>
-                <template v-else>
-                  <p>En plus des fruits frais, nous proposons également du <em>jus de pomme</em> qui permet de déguster tout au long de l’année notre production estivale et automnale. Afin d’utiliser les fruits mûrs invendus, nous nous sommes aussi mis à produire de l’<em>eau-de-vie</em> en petite quantité, disponible actuellement en deux sortes différentes : Pomme Rubinette et Poire.</p>
-                </template>
+                  <p>En plus des fruits frais, nous proposons également du <em>jus de pomme</em> qui permet de déguster
+                    tout au long de l’année notre production estivale et automnale.
+                     Afin d’utiliser les fruits mûrs invendus, nous nous sommes aussi mis à produire de l’<em>eau-de-vie</em>
+                    en petite quantité, disponible actuellement en deux sortes différentes : Pomme Rubinette et Poire.</p>
               </div>
             </section>
 
-            <section
-                id="natura"
-                class="v-content__content__text-container__section"
-            >
+              <section id="natura" class="v-content__content__text-container__section">
               <div class="v-content__content__text-container__section__content">
-                <template v-if="natura">
-                  <p v-for="(block, index) in natura.text_content" :key="index">
-                    <template v-for="(child, childIndex) in block.children" :key="childIndex">
-                      <a v-if="child.type === 'link'" :href="child.url" target="_blank">
-                        <template v-for="(linkChild, linkChildIndex) in child.children" :key="linkChildIndex">
-                          <em v-if="linkChild.bold">{{ linkChild.text }}</em>
-                          <i v-else-if="linkChild.underline">{{ linkChild.text }}</i>
-                          <template v-else>{{ linkChild.text }}</template>
-                        </template>
-                      </a>
-                      <template v-else>
-                        <em v-if="child.bold">{{ child.text }}</em>
-                        <i v-else-if="child.underline">{{ child.text }}</i>
-                        <template v-else>{{ child.text }}</template>
-                      </template>
-                    </template>
-                  </p>
-                </template>
-                <template v-else>
                   <p>
                     Parce que nous aimons la viande et qu'il est important pour nous d’en connaître la provenance ainsi
                     que de prodiguer un élevage respectueux des animaux, nos vaches sont élevées d'après les normes du
@@ -154,7 +79,6 @@
                     de lait maternel et de fourrages grossiers. Le troupeau pâture sur nos propres prés et passe l'hiver en stabulation libre.
                     Les vaches et les veaux sont en compagnie de leur taureau.
                   </p>
-                </template>
                 <div style="margin-top: 1rem">
                   <a v-if="liste_prix" :href="liste_prix" target="_blank" class="m-link-with-img">
                     <span>La liste des prix est par ici </span>
@@ -164,36 +88,17 @@
               </div>
             </section>
 
-            <section
-                id="miel"
-                class="v-content__content__text-container__section"
-            >
+              <section id="miel" class="v-content__content__text-container__section">
               <div class="v-content__content__text-container__section__content">
-                <template v-if="miel">
-                  <p v-for="(block, index) in miel.text_content" :key="index">
-                    <template v-for="(child, childIndex) in block.children" :key="childIndex">
-                      <a v-if="child.type === 'link'" :href="child.url" target="_blank">
-                        <template v-for="(linkChild, linkChildIndex) in child.children" :key="linkChildIndex">
-                          <em v-if="linkChild.bold">{{ linkChild.text }}</em>
-                          <i v-else-if="linkChild.underline">{{ linkChild.text }}</i>
-                          <template v-else>{{ linkChild.text }}</template>
-                        </template>
-                      </a>
-                      <template v-else>
-                        <em v-if="child.bold">{{ child.text }}</em>
-                        <i v-else-if="child.underline">{{ child.text }}</i>
-                        <template v-else>{{ child.text }}</template>
-                      </template>
-                    </template>
-                  </p>
-                </template>
-                <template v-else>
                   <p>
-                    Depuis 2018, Angela s’occupe également de quelques colonies d’abeilles qui contribuent à la pollinisation des arbres fruitiers et d’autres cultures en fleurs aux alentours de notre ferme. Nous récoltons le miel de printemps de fin mai à début juin et le miel d’été vers la mi-juillet. À travers ses saveurs, le miel reflète l’offre florale du moment (et la météo) dans toute sa diversité.
+                    Depuis 2018, Angela s’occupe également de quelques colonies d’abeilles qui contribuent à la
+                    pollinisation des arbres fruitiers et d’autres cultures en fleurs aux alentours de notre ferme.
+                    Nous récoltons le miel de printemps de fin mai à début juin et le miel d’été vers la mi-juillet.
+                    À travers ses saveurs, le miel reflète l’offre florale du moment (et la météo) dans toute sa diversité.
                   </p>
-                </template>
               </div>
             </section>
+            </template>
           </div>
         </div>
 
@@ -236,7 +141,7 @@ import { useGlobalState } from "@/stores/globalState"
 import { storeToRefs } from "pinia"
 
 const globalState = useGlobalState()
-const { presentation, fruit, produit, natura, miel, liste_prix } = storeToRefs(globalState)
+const { main_content, liste_prix } = storeToRefs(globalState)
 
 // Template refs
 const textContainerEl = ref<HTMLElement | null>(null)

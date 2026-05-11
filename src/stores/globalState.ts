@@ -1,5 +1,5 @@
 import {defineStore} from "pinia"
-import { getMiel, getFruit, getNatura, getProduit, getPresentation, getListePrix } from "@/services/api";
+import {getListePrixLink, getMainContent} from "@/services/api";
 
 /**
  * Global application state managed by Pinia.
@@ -29,11 +29,7 @@ export const useGlobalState = defineStore('globalState', {
     viewIDActive: "presentation",
 
     // API Data
-    presentation: null as any,
-    fruit: null as any,
-    produit: null as any,
-    natura: null as any,
-    miel: null as any,
+    main_content: null as any,
     liste_prix: null as any,
     dataLoaded: false
   }),
@@ -45,29 +41,22 @@ export const useGlobalState = defineStore('globalState', {
       this.isLoading = true;
       try {
         const results = await Promise.allSettled([
-          getProduit(),
-          getNatura(),
-          getMiel(),
-          getPresentation(),
-          getFruit(),
-          getListePrix()
+          getMainContent(),
+          getListePrixLink()
         ])
 
         const getData = (result: PromiseSettledResult<any>) =>
-            (result.status === 'fulfilled' && result.value.data) ? result.value.data.data : null
+            (result.status === 'fulfilled' && result.value.data) ? result.value.data : null
 
-        if (results[0].status === 'fulfilled') this.produit = getData(results[0])
-        if (results[1].status === 'fulfilled') this.natura = getData(results[1])
-        if (results[2].status === 'fulfilled') this.miel = getData(results[2])
-        if (results[3].status === 'fulfilled') this.presentation = getData(results[3])
-        if (results[4].status === 'fulfilled') this.fruit = getData(results[4])
+        if (results[0].status === 'fulfilled'){
+          this.main_content = getData(results[0])
+        }
+        if (results[1].status === 'fulfilled') {
+          this.liste_prix = getData(results[1])
 
-        const resListePrix = results[5].status === 'fulfilled' ? results[5].value.data : null
-        if (resListePrix && resListePrix.length > 0) {
-          this.liste_prix = resListePrix[0].url
         }
 
-        this.dataLoaded = true;
+        this.dataLoaded = true
       } catch (error) {
         console.error("Failed to fetch content in store:", error)
       } finally {
