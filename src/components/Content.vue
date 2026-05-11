@@ -18,7 +18,6 @@
                 </div>
               </section>
             </template>
-
             <template v-else>
               <section id="presentation" class="v-content__content__text-container__section">
               <div class="v-content__content__text-container__section__content">
