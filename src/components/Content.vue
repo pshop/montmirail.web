@@ -21,6 +21,7 @@
             <template v-else>
               <section id="presentation" class="v-content__content__text-container__section">
               <div class="v-content__content__text-container__section__content">
+                HARD_CODED
                   <p>
                     Installés à Montmirail près de Neuchâtel depuis 2011, nous tenons une exploitation spécialisée dans
                     les grandes cultures (maïs, soja, tournesol, blé d’automne). Attentifs à la qualité des produits ainsi
@@ -238,6 +239,10 @@ onUnmounted(() => {
     width: 100%;
     height: 100%;
     background: var(--m-color-light);
+    strong {
+      font-weight: normal;
+      font-style: italic;
+    }
 
     > * {
       width: 100%;
