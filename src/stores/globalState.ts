@@ -1,5 +1,5 @@
 import {defineStore} from "pinia"
-import {getListePrixLink, getMainContent} from "@/services/api";
+import {getListePrixLink, getMainContent, getMainContentImages} from "@/services/api";
 
 /**
  * Global application state managed by Pinia.
@@ -30,6 +30,7 @@ export const useGlobalState = defineStore('globalState', {
 
     // API Data
     main_content: null as any,
+    main_content_images: null as any,
     liste_prix: null as any,
     dataLoaded: false
   }),
@@ -42,19 +43,22 @@ export const useGlobalState = defineStore('globalState', {
       try {
         const results = await Promise.allSettled([
           getMainContent(),
-          getListePrixLink()
+          getListePrixLink(),
+          getMainContentImages(),
         ])
 
         const getData = (result: PromiseSettledResult<any>) =>
             (result.status === 'fulfilled' && result.value.data) ? result.value.data : null
 
         if (results[0].status === 'fulfilled'){
-          console.log(results[0])
           this.main_content = getData(results[0])
         }
         if (results[1].status === 'fulfilled') {
           this.liste_prix = getData(results[1])
-
+          console.log(this.liste_prix)
+        }
+        if (results[2].status === 'fulfilled') {
+          this.main_content_images = getData(results[2])
         }
 
         this.dataLoaded = true

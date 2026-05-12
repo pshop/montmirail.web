@@ -5,6 +5,7 @@
         <!-- Main text content column (8/12 grid) -->
         <div class="m-g-8-12 m-remove-child-margin">
           <div class="v-content__content__text-container" ref="textContainerEl" @scroll="onScroll">
+
             <template v-if="main_content">
               <section v-for="item in main_content.data"
                        v-bind:id="item.html_id"
@@ -18,6 +19,7 @@
                 </div>
               </section>
             </template>
+
             <template v-else>
               <section id="presentation" class="v-content__content__text-container__section">
               <div class="v-content__content__text-container__section__content">
@@ -102,29 +104,32 @@
         <!-- Image gallery column (4/12 grid) -->
         <div class="m-g-4-12">
           <div class="v-content__content__img-container">
-            <div
-                ref="imgGalleryEl"
-                :style="{
-                  transform: `translate3D(0, ${globalState.galleryScrollPosition}px, 0)`,
-                }"
+            <div ref="imgGalleryEl"
+                :style="{transform: `translate3D(0, ${globalState.galleryScrollPosition}px, 0)`,}"
             >
-              <!-- Gallery of 15 images scrolling in sync with text content -->
-              <img src="/1_1.jpg" alt="image">
-              <img src="/1_2.jpg" alt="image">
-              <img src="/1_3.jpg" alt="image">
-              <img src="/02.jpg" alt="image">
-              <img src="/01.jpg" alt="image">
-              <img src="/00.jpg" alt="image">
-              <img src="/05.jpg" alt="image">
-              <img src="/04.jpg" alt="image">
-              <img src="/03.jpg" alt="image">
-              <img src="/08.jpg" alt="image">
-              <img src="/07.jpg" alt="image">
-              <img src="/06.jpg" alt="image">
-              <img src="/09.jpg" alt="image">
-              <img src="/10.jpg" alt="image">
-              <img src="/11.jpg" alt="image">
-            </div>
+              <div v-if="main_content_images">
+                <div v-for="image in main_content_images.data">
+                  <img :src="apiUrl+'/assets/'+image.directus_files_id" alt="image">
+                </div>
+              </div>
+              <div v-else id="hard_coded_gallery">
+                <img src="/1_1.jpg" alt="image">
+                <img src="/1_2.jpg" alt="image">
+                <img src="/1_3.jpg" alt="image">
+                <img src="/02.jpg" alt="image">
+                <img src="/01.jpg" alt="image">
+                <img src="/00.jpg" alt="image">
+                <img src="/05.jpg" alt="image">
+                <img src="/04.jpg" alt="image">
+                <img src="/03.jpg" alt="image">
+                <img src="/08.jpg" alt="image">
+                <img src="/07.jpg" alt="image">
+                <img src="/06.jpg" alt="image">
+                <img src="/09.jpg" alt="image">
+                <img src="/10.jpg" alt="image">
+                <img src="/11.jpg" alt="image">
+              </div>
+              </div>
           </div>
         </div>
       </div>
@@ -138,7 +143,8 @@ import { useGlobalState } from "@/stores/globalState"
 import { storeToRefs } from "pinia"
 
 const globalState = useGlobalState()
-const { main_content, liste_prix } = storeToRefs(globalState)
+const { main_content, main_content_images, liste_prix } = storeToRefs(globalState)
+const apiUrl = import.meta.env.VITE_BASE_API_URL
 
 // Template refs
 const textContainerEl = ref<HTMLElement | null>(null)

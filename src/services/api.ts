@@ -19,4 +19,5 @@ api.interceptors.request.use(config => {
 })
 
 export const getMainContent = () => api.get('/categories')
+export const getMainContentImages = () => api.get('/categories_files?sort=categories_id')
 export const getListePrixLink = () => api.get('/liste_prix')
