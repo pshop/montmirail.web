@@ -49,6 +49,7 @@ export const useGlobalState = defineStore('globalState', {
             (result.status === 'fulfilled' && result.value.data) ? result.value.data : null
 
         if (results[0].status === 'fulfilled'){
+          console.log(results[0])
           this.main_content = getData(results[0])
         }
         if (results[1].status === 'fulfilled') {

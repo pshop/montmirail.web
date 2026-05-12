@@ -2,37 +2,50 @@
   <nav class="v-nav-top font-small">
     <div class="v-nav-top__list">
       <!-- Dynamically render navigation links -->
-      <a
-          v-for="item in navItems"
-          :key="item.id"
-          :href="`#${item.id}`"
-          :class="{ 'is-active': globalState.viewIDActive === item.id }"
-      >
+      <template v-if="main_content">
+        <a
+            v-for="item in main_content.data"
+            :key="item.html_id"
+            :href="`#${item.html_id}`"
+            :class="{ 'is-active': globalState.viewIDActive === item.html_id }"
+        >
+          {{item.titre}}
+        </a>
+      </template>
+      <template v-else>
+        <a
+            v-for="item in navItems"
+            :key="item.id"
+            :href="`#${item.id}`"
+            :class="{ 'is-active': globalState.viewIDActive === item.id }"
+        >
         {{ item.label }}
       </a>
+        </template>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
 import { useGlobalState } from "@/stores/globalState"
+import {onMounted} from "vue"
+import { storeToRefs } from "pinia"
 
-/**
- * Navigation items to display in the top bar.
- * id matches the section's ID in Content.vue for auto-highlighting.
- */
-const navItems = [
-  { id: 'presentation', label: 'Présentation' },
+const globalState = useGlobalState()
+const { main_content} = storeToRefs(globalState)
+
+let navItems = [
+  { id: 'presentation', label: 'Hard coded' },
   { id: 'fruit',        label: 'Fruits du verger' },
   { id: 'produit',      label: 'Produits fruitiers' },
   { id: 'natura',       label: 'Natura-Beef' },
   { id: 'miel',         label: 'Miel' },
 ]
 
-/**
- * Access the global store to track the active view ID.
- */
-const globalState = useGlobalState()
+onMounted(async () => {
+    await globalState.initData()
+})
+
 </script>
 
 <style lang="scss">
