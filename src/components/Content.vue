@@ -104,12 +104,12 @@
         <!-- Image gallery column (4/12 grid) -->
         <div class="m-g-4-12">
           <div class="v-content__content__img-container">
-            <div ref="imgGalleryEl"
-                :style="{transform: `translate3D(0, ${globalState.galleryScrollPosition}px, 0)`,}"
-            >
-              <div v-if="main_content_images">
+            <div ref="imgGalleryEl" :style="{transform: `translate3D(0, ${globalState.galleryScrollPosition}px, 0)`,}">
+              <div v-if="main_content_images.data">
                 <div v-for="image in main_content_images.data">
-                  <img :src="apiUrl+'/assets/'+image.directus_files_id" alt="image">
+                  <div v-if="image.directus_files_id">
+                    <img :src="apiUrl+'/assets/'+image.directus_files_id" alt="image">
+                  </div>
                 </div>
               </div>
               <div v-else id="hard_coded_gallery">

@@ -5,7 +5,7 @@ const api = axios.create({
   timeout: 6000,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`
+    //'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`
   },
 })
 
@@ -19,5 +19,5 @@ api.interceptors.request.use(config => {
 })
 
 export const getMainContent = () => api.get('/categories')
-export const getMainContentImages = () => api.get('/categories_files?sort=categories_id')
+export const getMainContentImages = () => api.get('/categories_files?sort=-categories_id')
 export const getListePrixLink = () => api.get('/liste_prix')

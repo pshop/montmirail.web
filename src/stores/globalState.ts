@@ -55,10 +55,10 @@ export const useGlobalState = defineStore('globalState', {
         }
         if (results[1].status === 'fulfilled') {
           this.liste_prix = getData(results[1])
-          console.log(this.liste_prix)
         }
         if (results[2].status === 'fulfilled') {
           this.main_content_images = getData(results[2])
+          console.log(this.main_content_images)
         }
 
         this.dataLoaded = true
