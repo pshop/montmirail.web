@@ -247,7 +247,11 @@ onUnmounted(() => {
     background: var(--m-color-light);
     strong {
       font-weight: normal;
+      color: var(--m-color-ternary);
+    }
+    em{
       font-style: italic;
+      color: var(--m-color-dark);
     }
 
     > * {
